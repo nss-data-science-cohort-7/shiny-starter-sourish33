@@ -13,3 +13,4 @@ continents <- gdp_le |>
   pull(Continent) |>
   unique() |>
   sort()
+

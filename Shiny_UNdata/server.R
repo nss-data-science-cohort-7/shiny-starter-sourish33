@@ -23,11 +23,18 @@ function(input, output, session) {
                 selected = selected_countries()[1]) # Set a default country
   })
   
-  output$distPlot <- renderPlot({
+  output$GDPPlot <- renderPlot({
     gdp_le |>
       filter(Country == input$country) |>
       ggplot(aes(x=Year, y=GDP_Per_capita)) + geom_point() +
-      labs(x = 'GDP per capita by Year')
+      labs(x = 'GDP per capita by Year', title = paste("GDP per capita by Year for", input$country))
+  })
+  
+  output$LifeExpectancyPlot <- renderPlot({
+    gdp_le |>
+      filter(Country == input$country) |>
+      ggplot(aes(x=Year, y=Life_Expectancy)) + geom_point() +
+      labs(x = 'Life Expectancy by Year', title = paste("Life Expectancy by Year for", input$country))
   })
   
 }

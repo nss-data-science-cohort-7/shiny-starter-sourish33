@@ -29,11 +29,12 @@ fluidPage(
                       label = "Select a Continent", 
                       choices = continents, 
                       selected = continents[0]),
-          uiOutput("countrySelection") # Dynamic UI for country selection
+          uiOutput("countrySelection"), # Dynamic UI for country selection
         ),
         # GDP plot for country
         mainPanel(
-            plotOutput("distPlot")
+            plotOutput("GDPPlot"),
+            plotOutput("LifeExpectancyPlot")
         )
     )
 )
