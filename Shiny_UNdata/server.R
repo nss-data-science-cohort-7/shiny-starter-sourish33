@@ -15,7 +15,7 @@ function(input, output, session) {
   })
   correlation <- reactive({
     filtered <- gdp_le |>
-      filter(Year == 2019)
+      filter(Year == input$year)
     cor(filtered$GDP_Per_capita, filtered$Life_Expectancy)
   }
   )
@@ -50,7 +50,7 @@ function(input, output, session) {
   
   output$GDP_vs_LE_plot <- renderPlot({
     gdp_le |>
-      filter(Year == 2019) |>
+      filter(Year == input$year) |>
       ggplot(aes(x = GDP_Per_capita, y = Life_Expectancy)) + geom_point() +
       geom_text(
         x = Inf,
@@ -61,6 +61,24 @@ function(input, output, session) {
         size = 5,
         aes(label = paste("Corr:", round(correlation(), 2)))
       )
+  })
+  
+  output$Log_GDP_vs_LE_plot <- renderPlot({
+    gdp_le |>
+      filter(Year == input$year) |>
+      ggplot(aes(x = Log_GDP_Per_capita, y = Life_Expectancy)) + geom_point() + 
+      geom_smooth(method = "lm", se = FALSE) + 
+      labs(x = 'Log GDP per capita', y = 'Life Expectancy') +
+      geom_text(
+        x = Inf,
+        y = -Inf,
+        label = paste("Correlation:", round(correlation(), 2)),
+        hjust = 1,
+        vjust = 0,
+        size = 5,
+        aes(label = paste("Corr:", round(correlation(), 2)))
+      )
+
   })
   
 }

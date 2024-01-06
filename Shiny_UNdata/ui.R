@@ -20,7 +20,7 @@ selected_countries = reactive({
 shinyUI(
   navbarPage("GDP/Life Expectancy Dashboard",
              tabPanel(
-               "Countries",
+               "Historical Data",
                sidebarLayout(
                  sidebarPanel(
                    selectInput("continent", 
@@ -39,21 +39,21 @@ shinyUI(
                  )
                )
              ),
-             tabPanel("Component 2", 
+             tabPanel("GDP vs LE", 
                       sidebarLayout(
                         
                         # Sidebar with a slider input
                         sidebarPanel(
-                          sliderInput("obs",
-                                      "Number of observations:",
-                                      min = 0,
-                                      max = 1000,
-                                      value = 500)
+                          selectInput("year", 
+                                      label = "Select a Year", 
+                                      choices = years, 
+                                      selected = years[0]),
                         ),
                         
                         # Show a plot of the generated distribution
                         mainPanel(
-                          plotOutput("GDP_vs_LE_plot")
+                          plotOutput("GDP_vs_LE_plot"),
+                          plotOutput("Log_GDP_vs_LE_plot")
                         )
                       )
                       ),
