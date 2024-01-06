@@ -52,6 +52,7 @@ function(input, output, session) {
     gdp_le |>
       filter(Year == input$year) |>
       ggplot(aes(x = GDP_Per_capita, y = Life_Expectancy)) + geom_point() +
+      labs(x = 'GDP per capita', y = 'Life Expectancy', title = paste("Life Expectancy vs GDP Per Capita for", input$year)) +
       geom_text(
         aes(x = Inf, y = -Inf, 
             label = paste("Corr:", round(correlation(), 2))),
@@ -62,13 +63,15 @@ function(input, output, session) {
   output$Log_GDP_vs_LE_plot <- renderPlot({
     gdp_le |>
       filter(Year == input$year) |>
-      ggplot(aes(x = Log_GDP_Per_capita, y = Life_Expectancy)) + geom_point() + 
+      ggplot(aes(x = Log_GDP_Per_capita, y = Life_Expectancy)) + 
+      geom_point() + 
       geom_smooth(method = "lm", se = FALSE) + 
-      labs(x = 'Log GDP per capita', y = 'Life Expectancy') +
+      labs(x = 'Log GDP per capita', y = 'Life Expectancy', title = paste("Life Expectancy vs Log GDP Per Capita for", input$year)) +
       geom_text(
-        aes(x = Inf, y = -Inf, 
-            label = paste("Corr:", round(correlation(), 2))),
-        hjust = 1, vjust = 0, size = 5
+        aes(x = -Inf, y = Inf, 
+            label = paste("Regression Equation: y =", round(coef(lm(Life_Expectancy ~ Log_GDP_Per_capita))[[1]], 2),
+                          "+", round(coef(lm(Life_Expectancy ~ Log_GDP_Per_capita))[[2]], 2), "* x")),
+        hjust = 0, vjust = 1, size = 5
       )
   })
   
