@@ -33,8 +33,11 @@ fluidPage(
         ),
         # GDP plot for country
         mainPanel(
-            plotOutput("GDPPlot"),
-            plotOutput("LifeExpectancyPlot")
+          tabsetPanel(
+            tabPanel("GDP", plotOutput("GDPPlot")), 
+            tabPanel("Life Expectancy", plotOutput("LifeExpectancyPlot"))
+          )
+            
         )
     )
 )
