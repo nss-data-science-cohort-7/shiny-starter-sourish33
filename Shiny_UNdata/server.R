@@ -2,7 +2,6 @@ library(shiny)
 
 # Define server logic required to draw a histogram
 function(input, output, session) {
-  
   # Define selected_countries as a reactive function
   selected_countries <- reactive({
     #req(input$continent) # Make sure input$continent is available
@@ -14,29 +13,54 @@ function(input, output, session) {
       unique() %>%
       sort()
   })
+  correlation <- reactive({
+    filtered <- gdp_le |>
+      filter(Year == 2019)
+    cor(filtered$GDP_Per_capita, filtered$Life_Expectancy)
+  }
+  )
   
   # Update the country selection based on the continent chosen
   output$countrySelection <- renderUI({
-    selectInput("country", 
-                label = "Select a country", 
-                choices = selected_countries(), 
-                selected = selected_countries()[1]) # Set a default country
+    selectInput(
+      "country",
+      label = "Select a country",
+      choices = selected_countries(),
+      selected = selected_countries()[1]
+    ) # Set a default country
   })
   
   output$GDPPlot <- renderPlot({
     gdp_le |>
       filter(Country == input$country) |>
-      ggplot(aes(x=Year, y=GDP_Per_capita)) + geom_point() +
-      labs(x = 'Year', title = paste("GDP per capita by Year for", input$country)) +
-             theme(plot.title = element_text(hjust = 0.5))
+      ggplot(aes(x = Year, y = GDP_Per_capita)) + geom_point() +
+      labs(x = 'Year',
+           title = paste("GDP per capita by Year for", input$country)) +
+      theme(plot.title = element_text(hjust = 0.5))
   })
   
   output$LifeExpectancyPlot <- renderPlot({
     gdp_le |>
       filter(Country == input$country) |>
-      ggplot(aes(x=Year, y=Life_Expectancy)) + geom_point() +
-      labs(x = 'Year', title = paste("Life Expectancy by Year for", input$country)) +
-             theme(plot.title = element_text(hjust = 0.5))
+      ggplot(aes(x = Year, y = Life_Expectancy)) + geom_point() +
+      labs(x = 'Year',
+           title = paste("Life Expectancy by Year for", input$country)) +
+      theme(plot.title = element_text(hjust = 0.5))
+  })
+  
+  output$GDP_vs_LE_plot <- renderPlot({
+    gdp_le |>
+      filter(Year == 2019) |>
+      ggplot(aes(x = GDP_Per_capita, y = Life_Expectancy)) + geom_point() +
+      geom_text(
+        x = Inf,
+        y = -Inf,
+        label = paste("Correlation:", round(correlation(), 2)),
+        hjust = 1,
+        vjust = 0,
+        size = 5,
+        aes(label = paste("Corr:", round(correlation(), 2)))
+      )
   })
   
 }

@@ -18,7 +18,7 @@ selected_countries = reactive({
 
 # Define UI for application that draws a histogram
 shinyUI(
-  navbarPage("My Application",
+  navbarPage("GDP/Life Expectancy Dashboard",
              tabPanel(
                "Countries",
                sidebarLayout(
@@ -39,7 +39,24 @@ shinyUI(
                  )
                )
              ),
-             tabPanel("Component 2"),
+             tabPanel("Component 2", 
+                      sidebarLayout(
+                        
+                        # Sidebar with a slider input
+                        sidebarPanel(
+                          sliderInput("obs",
+                                      "Number of observations:",
+                                      min = 0,
+                                      max = 1000,
+                                      value = 500)
+                        ),
+                        
+                        # Show a plot of the generated distribution
+                        mainPanel(
+                          plotOutput("GDP_vs_LE_plot")
+                        )
+                      )
+                      ),
              tabPanel("Component 3")
   )
 )
