@@ -17,27 +17,29 @@ selected_countries = reactive({
     sort()})
 
 # Define UI for application that draws a histogram
-fluidPage(
-
-    # Application title
-    titlePanel("UN Data"),
-
-    # Country selector
-    sidebarLayout(
-        sidebarPanel(
-          selectInput("continent", 
-                      label = "Select a Continent", 
-                      choices = continents, 
-                      selected = continents[0]),
-          uiOutput("countrySelection"), # Dynamic UI for country selection
-        ),
-        # GDP plot for country
-        mainPanel(
-          tabsetPanel(
-            tabPanel("GDP", plotOutput("GDPPlot")), 
-            tabPanel("Life Expectancy", plotOutput("LifeExpectancyPlot"))
-          )
-            
-        )
-    )
+shinyUI(
+  navbarPage("My Application",
+             tabPanel(
+               "Countries",
+               sidebarLayout(
+                 sidebarPanel(
+                   selectInput("continent", 
+                               label = "Select a Continent", 
+                               choices = continents, 
+                               selected = continents[0]),
+                   uiOutput("countrySelection"), # Dynamic UI for country selection
+                 ),
+                 # GDP plot for country
+                 mainPanel(
+                   tabsetPanel(
+                     tabPanel("GDP", plotOutput("GDPPlot")), 
+                     tabPanel("Life Expectancy", plotOutput("LifeExpectancyPlot"))
+                   )
+                   
+                 )
+               )
+             ),
+             tabPanel("Component 2"),
+             tabPanel("Component 3")
+  )
 )
