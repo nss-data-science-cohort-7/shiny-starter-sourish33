@@ -53,13 +53,9 @@ function(input, output, session) {
       filter(Year == input$year) |>
       ggplot(aes(x = GDP_Per_capita, y = Life_Expectancy)) + geom_point() +
       geom_text(
-        x = Inf,
-        y = -Inf,
-        label = paste("Correlation:", round(correlation(), 2)),
-        hjust = 1,
-        vjust = 0,
-        size = 5,
-        aes(label = paste("Corr:", round(correlation(), 2)))
+        aes(x = Inf, y = -Inf, 
+            label = paste("Corr:", round(correlation(), 2))),
+        hjust = 1, vjust = 0, size = 5
       )
   })
   
@@ -70,15 +66,10 @@ function(input, output, session) {
       geom_smooth(method = "lm", se = FALSE) + 
       labs(x = 'Log GDP per capita', y = 'Life Expectancy') +
       geom_text(
-        x = Inf,
-        y = -Inf,
-        label = paste("Correlation:", round(correlation(), 2)),
-        hjust = 1,
-        vjust = 0,
-        size = 5,
-        aes(label = paste("Corr:", round(correlation(), 2)))
+        aes(x = Inf, y = -Inf, 
+            label = paste("Corr:", round(correlation(), 2))),
+        hjust = 1, vjust = 0, size = 5
       )
-
   })
   
 }
