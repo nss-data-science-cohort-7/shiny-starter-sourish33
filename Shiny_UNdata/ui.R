@@ -9,23 +9,29 @@
 
 library(shiny)
 
+selected_countries = reactive({
+  gdp_le |> 
+    filter(Continent == input$continent) |>
+    pull(Country) |>
+    unique() |>
+    sort()})
+
 # Define UI for application that draws a histogram
 fluidPage(
 
     # Application title
     titlePanel("UN Data"),
 
-    # Sidebar with a slider input for number of bins
+    # Country selector
     sidebarLayout(
         sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+          selectInput("continent", 
+                      label = "Select a Continent", 
+                      choices = continents, 
+                      selected = continents[0]),
+          uiOutput("countrySelection") # Dynamic UI for country selection
         ),
-
-        # Show a plot of the generated distribution
+        # GDP plot for country
         mainPanel(
             plotOutput("distPlot")
         )

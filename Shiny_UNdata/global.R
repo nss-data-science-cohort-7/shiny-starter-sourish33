@@ -8,3 +8,8 @@ countries <- gdp_le |>
   pull(Country) |>
   unique() |>
   sort()
+
+continents <- gdp_le |>
+  pull(Continent) |>
+  unique() |>
+  sort()
