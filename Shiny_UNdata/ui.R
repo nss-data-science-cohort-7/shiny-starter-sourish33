@@ -40,22 +40,20 @@ shinyUI(
                )
              ),
              tabPanel("GDP vs LE", 
-                      sidebarLayout(
-                        
-                        # Sidebar with a slider input
-                        sidebarPanel(
-                          selectInput("year", 
+                      fluidRow(
+                        style = "display: flex; align-items: center; justify-content: center;",
+                        selectInput("year", 
                                       label = "Select a Year", 
                                       choices = years, 
-                                      selected = years[0]),
-                        ),
-                        
-                        # Show a plot of the generated distribution
-                        mainPanel(
+                                      selected = years[1])
+        
+                      ),
+                      fluidRow(
+                        style = "margin-left: auto; margin-right: auto; max-width: 75%;",
                           plotOutput("GDP_vs_LE_plot"),
                           plotOutput("Log_GDP_vs_LE_plot")
-                        )
                       )
+                      
                       ),
              tabPanel("Component 3")
   )
