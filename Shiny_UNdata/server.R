@@ -20,6 +20,14 @@ function(input, output, session) {
   }
   )
   
+  correlation_log <- reactive({
+    filtered <- gdp_le |>
+      filter(Year == input$year)
+    cor(filtered$Log_GDP_Per_capita, filtered$Life_Expectancy)
+  }
+  )
+  
+  
   # Update the country selection based on the continent chosen
   output$countrySelection <- renderUI({
     selectInput(
@@ -72,6 +80,11 @@ function(input, output, session) {
             label = paste("Regression Equation: y =", round(coef(lm(Life_Expectancy ~ Log_GDP_Per_capita))[[1]], 2),
                           "+", round(coef(lm(Life_Expectancy ~ Log_GDP_Per_capita))[[2]], 2), "* x")),
         hjust = 0, vjust = 1, size = 5
+      ) +
+      geom_text(
+        aes(x = Inf, y = -Inf, 
+            label = paste("Corr:", round(correlation_log(), 2))),
+        hjust = 1, vjust = 0, size = 5
       )
   })
   
